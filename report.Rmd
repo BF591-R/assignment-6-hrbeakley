@@ -29,7 +29,7 @@ If you like aesthetics, feel free to remove the above warning section from your 
 ## Setup
 ```{r Packages + setup, }
 source("main.R") # load all our wonderful functions
-knitr::opts_chunk$set(echo = FALSE) # no markdown for you <3
+knitr::opts_chunk$set(echo = FALSE) # no markdown for you
 ```
 
 Load the data using `load_n_trim()` and store into a variable.
