@@ -2,7 +2,9 @@
 title: "Assignment 6 Report"
 author: "Taylor Falk"
 date: "1/24/2022"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 # Comparison of Three Differential Expression Packages
@@ -69,6 +71,7 @@ edger_res$padj <- p.adjust(edger_res$PValue,
                            n = length(edger_res$PValue))
 cat("edger _with_ padj:")
 head(edger_res, 3)
+
 ```
 
 ### Limma with voom

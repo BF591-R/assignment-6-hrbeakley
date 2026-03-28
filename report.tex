@@ -1,0 +1,469 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Assignment 6 Report},
+  pdfauthor={Taylor Falk},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Assignment 6 Report}
+\author{Taylor Falk}
+\date{1/24/2022}
+
+\begin{document}
+\maketitle
+
+\section{Comparison of Three Differential Expression
+Packages}\label{comparison-of-three-differential-expression-packages}
+
+We are interested in examining how three differential expression
+packages (DESeq2, edgeR, and Limma) operate within R. Complete the code
+blocks below and use this document as a reference to recreate the
+appropriate results. This report document should be completed after you
+fill in the functions in \texttt{main.R} and you satisfy the tests in
+\texttt{test\_main.R} to the best of your ability. Once this document is
+completed, \texttt{Knit} it and push your repository to your student
+GitHub repository.
+
+This assignment will involve a decent amount of documentation reading,
+but the relevant information is linked in the \texttt{main.R} function
+descriptions.
+
+\textbf{WARNING} For SCC Users
+
+One of the libraries we utilize in this project, ggVennDiagram, requires
+some packages that are not enabled by default on SCC. If you install
+this package while using RStudio on your machine, you are likely not to
+run into this problem. In order to load these packages, we will enter
+two packages into the RStudio Server prompt when starting it on SCC (big
+shout outs to Mae Rose for solving this one!).
+
+Open the RStudio Server launcher on the SCC for web interface, and click
+on ``Select Modules''.
+\pandocbounded{\includegraphics[keepaspectratio]{mkd_img/scc1.png}}
+
+While in this submenu, search and select the modules \texttt{proj/8.2.1}
+and \texttt{sqlite3/3.37.2}. Your screen should look like the below
+image.
+\pandocbounded{\includegraphics[keepaspectratio]{mkd_img/scc2.png}}
+
+Finally, close out, your page should look like this final image. Proceed
+to start the session as normal.
+\pandocbounded{\includegraphics[keepaspectratio]{mkd_img/scc3.png}}
+
+If you like aesthetics, feel free to remove the above warning section
+from your final report.
+
+\subsection{Setup}\label{setup}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{source}\NormalTok{(}\StringTok{"main.R"}\NormalTok{) }\CommentTok{\# load all our wonderful functions}
+\NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{echo =} \ConstantTok{FALSE}\NormalTok{) }\CommentTok{\# no markdown for you \textless{}3}
+\end{Highlighting}
+\end{Shaded}
+
+Load the data using \texttt{load\_n\_trim()} and store into a variable.
+
+\begin{verbatim}
+##                      vP0_1 vP0_2 vAd_1 vAd_2
+## ENSMUSG00000102693.2     0     0     0     0
+## ENSMUSG00000064842.3     0     0     0     0
+## ENSMUSG00000051951.6    19    24     7     5
+## ENSMUSG00000102851.2     0     0     0     0
+## ENSMUSG00000103377.2     1     0     1     0
+## ENSMUSG00000104017.2     0     3     0     0
+\end{verbatim}
+
+\subsection{Run three packages}\label{run-three-packages}
+
+In the following three sections, use your functions to complete the
+three differential expression analyses for DESeq2, edgeR, and
+Limma-voom.
+
+\subsubsection{DESeq2}\label{deseq2}
+
+We include the output of \texttt{run\_deseq()} as well as the contents
+of the \texttt{coldata} input. The \texttt{colData} parameter for DESeq2
+describes the experimental setup and which samples belong to which part
+of the experiment. We will be using the recommended count filter of 10
+(from the DESeq2 documentation). A sample of the DESeq2 output is
+included, but note that the order of your genes and the values in the
+columns may differ slightly, please ensure the data is the right shape
+and has columns labeled correctly. A warning from DESeq2 is normal.
+Store DESeq2 results into a variable.
+
+\begin{verbatim}
+## coldata:
+\end{verbatim}
+
+\begin{verbatim}
+##       condition
+## vP0_1      day0
+## vP0_2      day0
+## vAd_1     adult
+## vAd_2     adult
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in DESeqDataSet(se, design = design, ignoreRank): some variables in
+## design formula are characters, converting to factors
+\end{verbatim}
+
+\begin{verbatim}
+## estimating size factors
+\end{verbatim}
+
+\begin{verbatim}
+## estimating dispersions
+\end{verbatim}
+
+\begin{verbatim}
+## gene-wise dispersion estimates
+\end{verbatim}
+
+\begin{verbatim}
+## mean-dispersion relationship
+\end{verbatim}
+
+\begin{verbatim}
+## final dispersion estimates
+\end{verbatim}
+
+\begin{verbatim}
+## fitting model and testing
+\end{verbatim}
+
+\begin{verbatim}
+## deseq results:
+\end{verbatim}
+
+\begin{verbatim}
+## log2 fold change (MLE): condition day0 vs adult 
+## Wald test p-value: condition day0 vs adult 
+## DataFrame with 6 rows and 6 columns
+##                        baseMean log2FoldChange     lfcSE      stat      pvalue
+##                       <numeric>      <numeric> <numeric> <numeric>   <numeric>
+## ENSMUSG00000051951.6   12.45040       1.350880  0.908351  1.487178 1.36968e-01
+## ENSMUSG00000102331.2    4.73568       0.395338  1.389527  0.284513 7.76017e-01
+## ENSMUSG00000025900.14  22.39009      -3.833022  0.833865 -4.596695 4.29245e-06
+## ENSMUSG00000025902.14 174.44409      -0.247347  0.292435 -0.845820 3.97653e-01
+## ENSMUSG00000104238.2    2.56484      -1.134668  2.097294 -0.541015 5.88497e-01
+## ENSMUSG00000102269.2    7.87344       0.576799  1.156710  0.498655 6.18023e-01
+##                              padj
+##                         <numeric>
+## ENSMUSG00000051951.6  2.63320e-01
+## ENSMUSG00000102331.2  8.73332e-01
+## ENSMUSG00000025900.14 2.75823e-05
+## ENSMUSG00000025902.14 5.73336e-01
+## ENSMUSG00000104238.2           NA
+## ENSMUSG00000102269.2  7.63028e-01
+\end{verbatim}
+
+\subsubsection{EdgeR}\label{edger}
+
+EdgeR's method of describing an experiment is more simple than DESeq2.
+The default results for EdgeR \textbf{do not} include p-adjusted values,
+but we can add them ourselves. Once we have the results stored, we can
+add a new column by using the \texttt{stats::p.adjust()} function with
+\texttt{method\ =\ \textquotesingle{}BH\textquotesingle{}}.
+
+\begin{verbatim}
+## group:
+\end{verbatim}
+
+\begin{verbatim}
+## 1 1 2 2
+\end{verbatim}
+
+\begin{verbatim}
+## Using classic mode.
+\end{verbatim}
+
+\begin{verbatim}
+## edger without padj:
+\end{verbatim}
+
+\begin{verbatim}
+##                            logFC     logCPM       PValue
+## ENSMUSG00000051951.6  -1.3336045 -0.1453460 1.532615e-02
+## ENSMUSG00000025900.14  3.7815113  0.3977791 1.520214e-12
+## ENSMUSG00000025902.14  0.2514873  3.3930556 3.215474e-01
+\end{verbatim}
+
+\begin{verbatim}
+## edger _with_ padj:
+\end{verbatim}
+
+\begin{verbatim}
+##                            logFC     logCPM       PValue         padj
+## ENSMUSG00000051951.6  -1.3336045 -0.1453460 1.532615e-02 3.149080e-02
+## ENSMUSG00000025900.14  3.7815113  0.3977791 1.520214e-12 1.435984e-11
+## ENSMUSG00000025902.14  0.2514873  3.3930556 3.215474e-01 4.235719e-01
+\end{verbatim}
+
+\subsubsection{Limma with voom}\label{limma-with-voom}
+
+Finally, we create an experimental design variable for Limma. We
+\emph{will} be using voom in this analysis, so set your voom argument to
+\texttt{TRUE}. If your limma/voom functions include a plot, that's fine!
+Bonus plots are always fun for cramming into your supplemental
+materials.
+
+\begin{verbatim}
+## design:
+\end{verbatim}
+
+\begin{verbatim}
+##       day0 day0vsadult
+## vP0_1    1           0
+## vP0_2    1           0
+## vAd_1    1           1
+## vAd_2    1           1
+\end{verbatim}
+
+\begin{verbatim}
+## group:
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 1 1 2 2
+## Levels: 1 2
+\end{verbatim}
+
+\begin{verbatim}
+## Limma results:
+\end{verbatim}
+
+\begin{verbatim}
+##                           logFC  AveExpr         t      P.Value    adj.P.Val
+## ENSMUSG00000026418.17 -9.817581 5.534673 -39.42302 6.856393e-09 3.841258e-05
+## ENSMUSG00000002500.16  6.177204 5.616861  37.76303 9.023170e-09 3.841258e-05
+## ENSMUSG00000051855.16 -5.358358 5.891389 -36.10231 1.202260e-08 3.841258e-05
+## ENSMUSG00000042828.13  5.322768 6.682673  35.42601 1.356413e-08 3.841258e-05
+## ENSMUSG00000021622.4   4.551307 9.187568  34.73656 1.537570e-08 3.841258e-05
+## ENSMUSG00000031972.6   4.407266 8.129513  34.09673 1.731116e-08 3.841258e-05
+##                               B
+## ENSMUSG00000026418.17  8.655442
+## ENSMUSG00000002500.16 10.320906
+## ENSMUSG00000051855.16 10.240130
+## ENSMUSG00000042828.13 10.566226
+## ENSMUSG00000021622.4  10.628166
+## ENSMUSG00000031972.6  10.508273
+\end{verbatim}
+
+\subsection{Plots}\label{plots}
+
+We don't want to worry our little heads plotting \emph{all} of the data,
+so we will just trim it down to the 1,000 most significant p-values.
+Order each of the three results set by \textbf{p-value} and take the top
+(smallest) 1,000 rows. Note that we are \emph{plotting} the
+\textbf{p-adjusted} values but we are \emph{sorting} the
+\textbf{p-values}. This is an important distinction.
+
+\begin{verbatim}
+## Limma shape before:
+\end{verbatim}
+
+\begin{verbatim}
+## 'data.frame':    15548 obs. of  6 variables:
+##  $ logFC    : num  -9.82 6.18 -5.36 5.32 4.55 ...
+##  $ AveExpr  : num  5.53 5.62 5.89 6.68 9.19 ...
+##  $ t        : num  -39.4 37.8 -36.1 35.4 34.7 ...
+##  $ P.Value  : num  6.86e-09 9.02e-09 1.20e-08 1.36e-08 1.54e-08 ...
+##  $ adj.P.Val: num  3.84e-05 3.84e-05 3.84e-05 3.84e-05 3.84e-05 ...
+##  $ B        : num  8.66 10.32 10.24 10.57 10.63 ...
+## NULL
+\end{verbatim}
+
+\begin{verbatim}
+## Limma shape after:
+\end{verbatim}
+
+\begin{verbatim}
+## 'data.frame':    1000 obs. of  6 variables:
+##  $ logFC    : num  -9.82 6.18 -5.36 5.32 4.55 ...
+##  $ AveExpr  : num  5.53 5.62 5.89 6.68 9.19 ...
+##  $ t        : num  -39.4 37.8 -36.1 35.4 34.7 ...
+##  $ P.Value  : num  6.86e-09 9.02e-09 1.20e-08 1.36e-08 1.54e-08 ...
+##  $ adj.P.Val: num  3.84e-05 3.84e-05 3.84e-05 3.84e-05 3.84e-05 ...
+##  $ B        : num  8.66 10.32 10.24 10.57 10.63 ...
+## NULL
+\end{verbatim}
+
+\begin{verbatim}
+## head(deseq_results), notice the order of the p-values nad p-adjusted values:
+\end{verbatim}
+
+We want to create a venn diagram using the \texttt{ggVennDiagram}
+package. This package asks for a list object as input, so we can create
+a list that contains the three named collections of genes from our
+separate packages. Calling row.names() will give us the names of all the
+genes. More info here:
+\href{https://r-charts.com/part-whole/ggvenndiagram/}{ggVennDiagram}
+
+\begin{figure}
+
+{\centering \includegraphics{report_files/figure-latex/Venn diagram-1} 
+
+}
+
+\caption{Figure 1 - A venn diagram comparing the top 1,000 differentially expressed genes from three different R packages ordered by ascending p-value. A Lighter shade of blue indicates a higher proportion of shared genes.}\label{fig:Venn diagram}
+\end{figure}
+
+While plots can be used to create publication ready images, we can also
+utilize them to check our data and confirm our assumptions. Limma seems
+to have a number of selected genes that don't match DESeq2 and edgeR, so
+we're interested to see how the distributions of p-values compare to one
+another. We did not write this plot as a function, but can use the data
+we generate with \texttt{combine\_pval()} to \texttt{facet\_wrap()} the
+three data sets together. Use facet wrap with the
+\texttt{\textasciitilde{}\ package} parameter to recreate the figure
+below.
+
+\begin{figure}
+
+{\centering \includegraphics{report_files/figure-latex/Facet plot-1} 
+
+}
+
+\caption{Figure 2 - Three histogram plots comparing the distribution of p-values for three differential expression packages. Note that edgeR and DESeq2 have their values concentrated closer to 0 than the Limma package results.}\label{fig:Facet plot}
+\end{figure}
+
+Use \texttt{create\_facets()} and \texttt{theme\_plot()} to create the
+final plot.
+
+\begin{figure}
+
+{\centering \includegraphics{report_files/figure-latex/Final plot-1} 
+
+}
+
+\caption{Figure 3 - A volcano plot of the top 1,000 genes (ranked by p-value) comparing the log<sub>2</sub> fold-change with the adjusted p-value. Adjusted p-values above 1e-100 are highlighted in red.}\label{fig:Final plot}
+\end{figure}
+
+\textbf{Bonus} Compare Limma Without Voom
+
+Completing the above cell is enough to finish the assignment, but there
+is one element of the documentation for Limma that you may be interested
+in looking at (entirely optionally, of course). \texttt{voom}, the
+component of Limma that we utilize, is not exactly \emph{necessary}. The
+documentation even suggests: \textgreater{} If the sequencing depth is
+reasonably consistent across the RNA samples, then the simplest and most
+robust approach to differential exis to use limma-trend.
+
+Is this appropriate for our data? How can you tell? If you're
+interested, design a function to run limma-trend \emph{instead} of voom,
+and compare using the plots above. What does using voom do to the data?
+Again, this is a bonus section and {\textbf{is not}} necessary to
+complete assignment 6. Feel free to create the venn diagram, or other
+plots used in this assignment.\\
+
+\begin{figure}
+
+{\centering \includegraphics{report_files/figure-latex/Voomless bonus-1} 
+
+}
+
+\caption{Figure 4+ - A venn diagram comparing the top 1,000 differentially expressed genes from four different R packages ordered by ascending p-value.}\label{fig:Voomless bonus}
+\end{figure}
+
+\end{document}

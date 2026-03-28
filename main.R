@@ -33,7 +33,11 @@ for (package in libs) {
 #'
 #' @examples counts_df <- load_n_trim("/path/to/counts/verse_counts.tsv")
 load_n_trim <- function(filename) {
-    return(NULL)
+  df <- read.delim(filename)
+  result <- df %>%
+    select(starts_with("vP0") | starts_with("vAd"))
+  row.names(result) <- df$gene
+  return(result)
 }
 
 #' Perform a DESeq2 analysis of rna seq data
@@ -57,7 +61,15 @@ load_n_trim <- function(filename) {
 #'
 #' @examples run_deseq(counts_df, coldata, 10, "condition_day4_vs_day7")
 run_deseq <- function(count_dataframe, coldata, count_filter, condition_name) {
-    return(NULL)
+    cts <- as.matrix(count_dataframe)
+    dds <- DESeqDataSetFromMatrix(countData = cts,
+                                  colData = coldata,
+                                  design = ~ condition)
+    keep <- rowSums(counts(dds)) >= count_filter
+    dds <- dds[keep,]
+    dds <- DESeq(dds)
+    res <- results(dds, name=condition_name)
+    res
 }
 
 #### edgeR ####
@@ -77,7 +89,13 @@ run_deseq <- function(count_dataframe, coldata, count_filter, condition_name) {
 #'
 #' @examples run_edger(counts_df, group)
 run_edger <- function(count_dataframe, group) {
-    return(NULL)
+  y <- DGEList(counts=count_dataframe, group = group)
+  keep <- filterByExpr(y, group = group)
+  y <- y[keep, , keep.lib.sizes = FALSE]
+  y <- normLibSizes(y)
+  y <- estimateDisp(y)
+  res <- exactTest(y)
+  res$table
 }
 
  #### limma ####
@@ -101,7 +119,15 @@ run_edger <- function(count_dataframe, group) {
 #' 
 #' @examples run_limma(counts_df, design, voom=TRUE)
 run_limma <- function(counts_dataframe, design, group) {
-    return(NULL)
+  dge <- DGEList(counts=counts_dataframe)
+  keep <- filterByExpr(dge, group = group)
+  dge <- dge[keep,,keep.lib.sizes=FALSE]
+  dge <- calcNormFactors(dge)
+  
+  v <- voom(dge, design, plot=FALSE)
+  fit <- lmFit(v, design)
+  fit <- eBayes(fit)
+  topTable(fit, coef=ncol(design),sort.by="P",number=Inf)
 }
 
 #### ggplot ####
@@ -133,7 +159,20 @@ run_limma <- function(counts_dataframe, design, group) {
 #' 2 deseq   9.97e-261
 #' 3 deseq   1.16e-206
 combine_pval <- function(deseq, edger, limma) {
-    return(NULL)
+  deseq_df <- tibble(
+    package = "deseq",
+    pval = deseq$pvalue
+  )
+  edger_df <- tibble(
+    package = "edger",
+    pval = edger$PValue
+  )
+  limma_df <- tibble(
+    package = "limma",
+    pval = limma$P.Value
+  )
+  out <- dplyr::bind_rows(deseq_df, edger_df, limma_df)
+  return(out)
 }
 
 #' Create three separate facets for each of the diff. exp. pacakges.
@@ -157,7 +196,24 @@ combine_pval <- function(deseq, edger, limma) {
 #' 1  -9.84 2.23e-180 edgeR  
 #' 2   6.18 5.87e-179 edgeR  
 create_facets <- function(deseq, edger, limma) {
-    return(NULL)
+  deseq_df <- tibble(
+    package = "deseq",
+    padj = deseq$padj,
+    logFC = deseq$log2FoldChange
+    
+  )
+  edger_df <- tibble(
+    package = "edger",
+    padj = edger$padj,
+    logFC = edger$logFC
+  )
+  limma_df <- tibble(
+    package = "limma",
+    padj = limma$adj.P.Val,
+    logFC = limma$logFC
+  )
+  out <- dplyr::bind_rows(deseq_df, edger_df, limma_df)
+  return(out)
 }
 
 #' Create an attractive volcano plot of three diff. exp. packages' data.
@@ -187,6 +243,19 @@ create_facets <- function(deseq, edger, limma) {
 #'
 #' @examples p <- theme_plot(volcano)
 theme_plot <- function(volcano_data) {
-    return(NULL)
+  volcano_data %>%
+    mutate(sig = padj < 1e-100) %>%
+    ggplot(aes(x=logFC, y=-log10(padj), color = sig)) +
+    geom_point() +
+    facet_wrap(~ package) +
+    scale_color_manual(values = c("FALSE" = "black", "TRUE" = "red")) +
+    labs(
+      title = "Volcano plot comparison of three diff. expression R packages",
+      subtitle = "Comparing day 0 vs. adult mouse myocardial cells",
+      x = expression(log[2] * " fold-change"),
+      y = expression(-log[10] * "(p adjusted)"),
+      color = "P-adj < 1e-100"
+    ) +
+    theme_bw()
 }
 
